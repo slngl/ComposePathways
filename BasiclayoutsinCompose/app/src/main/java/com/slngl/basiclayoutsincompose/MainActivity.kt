@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,7 +26,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -270,6 +273,46 @@ fun HomeSection(
         )
         content()
     }
+}
+
+/**
+ *
+ * manually scroll
+ *
+ * Lazy layouts such as LazyRow and LazyHorizontalGrid automatically add scrolling behavior.
+ * However, you don't always need a Lazy layout. In general, you use a Lazy layout when
+ * you have many elements in a list or large data sets to load, so emitting all items
+ * at once would come at a performance cost and would slow down your app. When a list has
+ * only a limited number of elements, you can instead choose to use a simple Column or Row
+ * and add the scroll behavior manually. To do so, you use the verticalScroll or horizontalScroll
+ * modifiers. These require a ScrollState, which contains the current state of the scroll,
+ * used to modify the scroll state from outside. In this case, you're not looking to
+ * modify the scroll state, so you simply create a persistent ScrollState instance using
+ * rememberScrollState.
+ *
+ */
+@Composable
+fun HomeScreen(modifier: Modifier = Modifier) {
+    Column(
+        modifier
+            .verticalScroll(rememberScrollState())
+    ) {
+        Spacer(Modifier.height(16.dp))
+        SearchBar(Modifier.padding(horizontal = 16.dp))
+        HomeSection(title = R.string.align_your_body) {
+            AlignYourBodyRow()
+        }
+        HomeSection(title = R.string.favorite_collections) {
+            FavoriteCollectionsGrid()
+        }
+        Spacer(Modifier.height(16.dp))
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFF5F0EE, heightDp = 180)
+@Composable
+fun ScreenContentPreview() {
+    BasicLayoutsInComposeTheme { HomeScreen() }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFF5F0EE)
