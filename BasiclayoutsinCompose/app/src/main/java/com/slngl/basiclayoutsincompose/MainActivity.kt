@@ -1,5 +1,6 @@
 package com.slngl.basiclayoutsincompose
 
+import android.icu.text.CaseMap.Title
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -45,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 import com.slngl.basiclayoutsincompose.ui.theme.BasicLayoutsInComposeTheme
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -240,6 +242,45 @@ private data class DrawableStringPair(
     @DrawableRes val drawable: Int,
     @StringRes val text: Int
 )
+
+/**
+ * Slot API
+ *
+ * You can use the content parameter for the composable's slot.
+ * This way, when you use the HomeSection composable,
+ * you can use a trailing lambda to fill the content slot. When a composable provides multiple slots
+ * to fill in, you can give them meaningful names that represent their function in the
+ * bigger composable container. For example, Material's TopAppBar provides the slots for title,
+ * navigationIcon, and actions.
+ *
+ */
+@Composable
+fun HomeSection(
+    @StringRes title: Int,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = stringResource(title),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier
+                .paddingFromBaseline(top = 40.dp, bottom = 8.dp)
+                .padding(horizontal = 16.dp)
+        )
+        content()
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFF5F0EE)
+@Composable
+fun HomeSectionPreview() {
+    BasicLayoutsInComposeTheme {
+        HomeSection(R.string.align_your_body) {
+            AlignYourBodyRow()
+        }
+    }
+}
 
 @Preview(showBackground = true, backgroundColor = 0xFFF5F0EE)
 @Composable
