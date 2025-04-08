@@ -174,7 +174,9 @@ fun AlignYourBodyElement(
  */
 @Composable
 fun FavoriteCollectionCard(
-    @DrawableRes drawable: Int, @StringRes text: Int, modifier: Modifier = Modifier
+    @DrawableRes drawable: Int,
+    @StringRes text: Int,
+    modifier: Modifier = Modifier
 ) {
     Surface(
         shape = MaterialTheme.shapes.medium,
@@ -182,7 +184,8 @@ fun FavoriteCollectionCard(
         modifier = modifier
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.width(255.dp)
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.width(255.dp)
         ) {
             Image(
                 painter = painterResource(drawable),
@@ -213,7 +216,8 @@ fun AlignYourBodyRow(modifier: Modifier = Modifier) {
     ) {
         items(alignYourBodyData) { item ->
             AlignYourBodyElement(
-                drawable = item.drawable, text = item.text
+                drawable = item.drawable,
+                text = item.text
             )
         }
     }
@@ -256,7 +260,8 @@ private val favoriteCollectionsData = listOf(
 ).map { DrawableStringPair(it.first, it.second) }
 
 private data class DrawableStringPair(
-    @DrawableRes val drawable: Int, @StringRes val text: Int
+    @DrawableRes val drawable: Int,
+    @StringRes val text: Int
 )
 
 /**
@@ -272,7 +277,9 @@ private data class DrawableStringPair(
  */
 @Composable
 fun HomeSection(
-    @StringRes title: Int, modifier: Modifier = Modifier, content: @Composable () -> Unit
+    @StringRes title: Int,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
 ) {
     Column(modifier = modifier) {
         Text(
@@ -305,7 +312,8 @@ fun HomeSection(
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     Column(
-        modifier.verticalScroll(rememberScrollState())
+        modifier
+            .verticalScroll(rememberScrollState())
     ) {
         Spacer(Modifier.height(16.dp))
         SearchBar(Modifier.padding(horizontal = 16.dp))
