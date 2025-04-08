@@ -315,7 +315,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun SootheBottomNav(modifier: Modifier = Modifier) {
-    NavigationBar (
+    NavigationBar(
         containerColor = MaterialTheme.colorScheme.surfaceVariant,
         modifier = modifier
     ) {
@@ -327,7 +327,7 @@ fun SootheBottomNav(modifier: Modifier = Modifier) {
                 )
             },
             selected = true,
-            onClick = {  }
+            onClick = { }
         )
         NavigationBarItem(
             icon = { Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null) },
@@ -337,7 +337,7 @@ fun SootheBottomNav(modifier: Modifier = Modifier) {
                 )
             },
             selected = false,
-            onClick = {  }
+            onClick = { }
         )
     }
 }
