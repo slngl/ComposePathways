@@ -1,6 +1,5 @@
 package com.slngl.basiclayoutsincompose
 
-import android.icu.text.CaseMap.Title
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -45,6 +43,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,23 +58,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 import com.slngl.basiclayoutsincompose.ui.theme.BasicLayoutsInComposeTheme
-import java.util.Locale
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BasicLayoutsInComposeTheme {
-                // Scaffold gives you a top-level configurable composable for apps that implement
-                // Material design. It contains slots for various Material concepts,
-                // one of which is the bottom bar.
-                Scaffold(bottomBar = { SootheBottomNav() }) { innerPadding ->
-                    HomeScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            val windowSizeClass = calculateWindowSizeClass(this)
+            MySootheApp(windowSizeClass)
+        }
+    }
+}
+
+/**
+ * There are three window size class widths: Compact, Medium and Expanded. When the app is
+ * in portrait mode it is Compact width, when it is in landscape mode it is Expanded width.
+ * For the purposes of this codelab, you won't be working with Medium width.
+ */
+@Composable
+fun MySootheApp(windowSize: WindowSizeClass) {
+    when (windowSize.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            MySootheAppPortrait()
+        }
+
+        WindowWidthSizeClass.Expanded -> {
+            MySootheAppLandscape()
         }
     }
 }
@@ -379,6 +391,21 @@ private fun SootheNavigationRail(modifier: Modifier = Modifier) {
         }
     }
 }
+
+@Composable
+fun MySootheAppPortrait() {
+    BasicLayoutsInComposeTheme {
+        // Scaffold gives you a top-level configurable composable for apps that implement
+        // Material design. It contains slots for various Material concepts,
+        // one of which is the bottom bar.
+        Scaffold(bottomBar = { SootheBottomNav() }) { innerPadding ->
+            HomeScreen(
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
 
 @Composable
 fun MySootheAppLandscape() {
