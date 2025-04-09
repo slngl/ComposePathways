@@ -1,12 +1,14 @@
 package com.slngl.basicstatecodelab
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -20,13 +22,48 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun WaterCounter(modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(16.dp)) {
-        val count: MutableState<Int> = remember { mutableStateOf(0) }
-        Text("You've had ${count.value} glasses.")
-        Button(onClick = { count.value++ }, Modifier.padding(top = 8.dp)) {
+        var count by remember { mutableStateOf(0) }
+        if (count > 0) {
+            Text("You've had $count glasses.")
+        }
+        Button(onClick = { count++ }, Modifier.padding(top = 8.dp), enabled = count < 10) {
             Text("Add one")
         }
     }
 }
+/*@Composable
+fun WaterCounter() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        var count by remember { mutableStateOf(0) }
+        if (count > 0) {
+            var showTask by remember { mutableStateOf(true) }
+            if (showTask) {
+                WellnessTaskItem(
+                    onClose = { showTask = false },
+                    taskName = "Have you taken your 15 minute walk today?"
+                )
+            }
+            Text("You've had $count glasses.")
+        }
+
+        Row(
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Button(onClick = { count++ }, enabled = count < 10) {
+                Text("Add one")
+            }
+
+            Button(
+                onClick = { count = 0 },
+                modifier = Modifier.padding(start = 8.dp)
+            ) {
+                Text("Clear water count")
+            }
+        }
+    }
+}*/
 
 /**
  * Note: It's a good practice to provide a default Modifier to all composable functions,
@@ -49,4 +86,10 @@ fun WaterCounter(modifier: Modifier = Modifier) {
  * If a state change happens, Compose re-executes the affected composable functions
  * with the new state, creating an updated UI—this is called recomposition
  *
+ */
+
+/**
+ *
+ * remember stores objects in the Composition, and forgets the object if the source location where
+ * remember is called is not invoked again during a recomposition.
  */
