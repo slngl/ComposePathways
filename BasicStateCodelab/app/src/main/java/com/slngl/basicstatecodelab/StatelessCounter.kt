@@ -26,12 +26,16 @@ import androidx.compose.ui.unit.dp
  * where this value represents any state that could be modified.
  */
 @Composable
-fun StatelessCounter( count: Int, onIncrement: () -> Unit, modifier: Modifier = Modifier) {
+fun StatelessCounter(count: Int, onIncrement: () -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(16.dp)) {
         if (count > 0) {
             Text("You've had $count glasses.")
         }
-        Button(onClick = onIncrement, modifier = Modifier.padding(top = 8.dp), enabled = count < 10) {
+        Button(
+            onClick = onIncrement,
+            modifier = Modifier.padding(top = 8.dp),
+            enabled = count < 10
+        ) {
             Text("Add one")
         }
     }
@@ -40,7 +44,11 @@ fun StatelessCounter( count: Int, onIncrement: () -> Unit, modifier: Modifier = 
 @Composable
 fun StatefulCounter(modifier: Modifier = Modifier) {
     var count by rememberSaveable { mutableIntStateOf(0) }
-    StatelessCounter(count, { count++ }, modifier)
+    StatelessCounter(
+        count = count,
+        onIncrement = { count++ },
+        modifier = modifier
+    )
 }
 
 /**
